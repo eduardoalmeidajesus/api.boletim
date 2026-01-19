@@ -81,5 +81,5 @@ http://www.ssp.sp.gov.br/transparenciassp/Consulta.aspx
 
 4. Acessar no navegador:
    ```bash
-   (http://localhost:8080)
+   http://localhost:8080
 
