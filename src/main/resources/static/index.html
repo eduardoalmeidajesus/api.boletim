@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Boletins de Furto</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Boletins de Furto de Veículos</h1>
+        
+        <!-- Menu de navegação -->
+        <nav class="menu">
+            <button onclick="showSection('cadastro')">Cadastrar Boletim</button>
+            <button onclick="showSection('listar')">Listar Boletins</button>
+            <button onclick="showSection('buscar')">Buscar</button>
+            <button onclick="showSection('veiculos')">Veículos</button>
+            <button onclick="carregarCSV()">Carregar Dados CSV</button>
+        </nav>
+
+        <!-- Seção de Cadastro -->
+        <section id="cadastro" class="section">
+            <h2>Cadastrar Novo Boletim</h2>
+            <form id="formBoletim">
+                <div class="form-group">
+                    <label>Crime:</label>
+                    <input type="text" id="crime" required>
+                </div>
+                <div class="form-group">
+                    <label>Data Ocorrência:</label>
+                    <input type="date" id="dataOcorrencia" required>
+                </div>
+                <div class="form-group">
+                    <label>Período:</label>
+                    <select id="periodoOcorrencia" required>
+                        <option value="">Selecione</option>
+                        <option value="PELA MANHÃ">Pela Manhã</option>
+                        <option value="A TARDE">A Tarde</option>
+                        <option value="A NOITE">A Noite</option>
+                        <option value="DE MADRUGADA">De Madrugada</option>
+                        <option value="EM HORA INCERTA">Em Hora Incerta</option>
+                    </select>
+                </div>
+                
+                <h3>Local da Ocorrência</h3>
+                <div class="form-group">
+                    <label>Logradouro:</label>
+                    <input type="text" id="logradouro" required>
+                </div>
+                <div class="form-group">
+                    <label>Número:</label>
+                    <input type="text" id="numero" required>
+                </div>
+                <div class="form-group">
+                    <label>Bairro:</label>
+                    <input type="text" id="bairro" required>
+                </div>
+                <div class="form-group">
+                    <label>Cidade:</label>
+                    <input type="text" id="cidade" required>
+                </div>
+                <div class="form-group">
+                    <label>Estado:</label>
+                    <input type="text" id="estado" required>
+                </div>
+                
+                <h3>Veículo Furtado</h3>
+                <div class="form-group">
+                    <label>Ano Fabricação:</label>
+                    <input type="number" id="anoFabricacao" required>
+                </div>
+                <div class="form-group">
+                    <label>Cor:</label>
+                    <input type="text" id="cor" required>
+                </div>
+                <div class="form-group">
+                    <label>Marca:</label>
+                    <input type="text" id="marca" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo:</label>
+                    <select id="tipoVeiculo" required>
+                        <option value="">Selecione</option>
+                        <option value="CARRO">Carro</option>
+                        <option value="MOTO">Moto</option>
+                        <option value="CAMINHAO">Caminhão</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Placa:</label>
+                    <input type="text" id="placa" required>
+                </div>
+                <div class="form-group">
+                    <label>Estado da Placa:</label>
+                    <input type="text" id="estadoPlaca" required>
+                </div>
+                <div class="form-group">
+                    <label>Cidade da Placa:</label>
+                    <input type="text" id="cidadePlaca" required>
+                </div>
+                
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <!-- Seção de Listagem -->
+        <section id="listar" class="section" style="display:none">
+            <h2>Lista de Boletins</h2>
+            <button onclick="listarTodos()">Carregar Todos</button>
+            <div id="listaBoletins"></div>
+        </section>
+
+        <!-- Seção de Busca -->
+        <section id="buscar" class="section" style="display:none">
+            <h2>Buscar Boletins</h2>
+            
+            <div class="busca-group">
+                <h3>Buscar por ID</h3>
+                <input type="text" id="buscaId" placeholder="ID do boletim">
+                <button onclick="buscarPorId()">Buscar</button>
+            </div>
+            
+            <div class="busca-group">
+                <h3>Buscar por Cidade</h3>
+                <input type="text" id="buscaCidade" placeholder="Nome da cidade">
+                <button onclick="buscarPorCidade()">Buscar</button>
+            </div>
+            
+            <div class="busca-group">
+                <h3>Buscar por Período</h3>
+                <select id="buscaPeriodo">
+                    <option value="">Selecione</option>
+                    <option value="PELA MANHÃ">Pela Manhã</option>
+                    <option value="A TARDE">A Tarde</option>
+                    <option value="A NOITE">A Noite</option>
+                    <option value="DE MADRUGADA">De Madrugada</option>
+                    <option value="EM HORA INCERTA">Em Hora Incerta</option>
+                </select>
+                <button onclick="buscarPorPeriodo()">Buscar</button>
+            </div>
+            
+            <div id="resultadoBusca"></div>
+        </section>
+
+        <!-- Seção de Veículos -->
+        <section id="veiculos" class="section" style="display:none">
+            <h2>Buscar Veículos</h2>
+            
+            <div class="busca-group">
+                <h3>Buscar por Placa</h3>
+                <input type="text" id="buscaPlaca" placeholder="Placa do veículo">
+                <button onclick="buscarPorPlaca()">Buscar</button>
+            </div>
+            
+            <div class="busca-group">
+                <h3>Buscar por Cor</h3>
+                <input type="text" id="buscaCor" placeholder="Cor do veículo">
+                <button onclick="buscarPorCor()">Buscar</button>
+            </div>
+            
+            <div class="busca-group">
+                <h3>Buscar por Tipo</h3>
+                <select id="buscaTipo">
+                    <option value="">Selecione</option>
+                    <option value="CARRO">Carro</option>
+                    <option value="MOTO">Moto</option>
+                    <option value="CAMINHAO">Caminhão</option>
+                </select>
+                <button onclick="buscarPorTipo()">Buscar</button>
+            </div>
+            
+            <div id="resultadoVeiculos"></div>
+        </section>
+
+        <!-- Área de mensagens -->
+        <div id="mensagens"></div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
